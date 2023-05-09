@@ -237,7 +237,8 @@ if __name__ == '__main__':
         segmenter = EmbeddingSegmenter(
             glove_path=args.glove_path,
             cut_rate=args.cut_rate,
-            text_preprocess_fn=lambda x: re.sub(r'[^\w\s]', '', x.strip().lower())
+            text_preprocess_fn=lambda x: x
+            # text_preprocess_fn=lambda x: re.sub(r'[^\w\s]', '', x.strip().lower())
         )
         collate_fn = DataCollatorPlainText()
 

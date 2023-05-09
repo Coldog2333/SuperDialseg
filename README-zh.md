@@ -34,8 +34,8 @@ predictions = segmenter.forward(dialogue)
 - [X] TexttilingNSPSegmenter
 - [X] CSMSegmenter
 - [X] BayesSegmenter
+- [X] EmbeddingSegmenter
 - [ ] GraphSeg
-- [ ] TextTiling+Glove
 - [ ] TextSeg-text
 - [ ] TextSeg-dial
 - [ ] BERT
@@ -47,4 +47,3 @@ predictions = segmenter.forward(dialogue)
 - [ ] MVRoBERTa
 - [ ] InstructGPT
 - [ ] 增加ChatGPT和GPT-4.
-

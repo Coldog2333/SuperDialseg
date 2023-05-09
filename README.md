@@ -32,8 +32,8 @@ predictions = segmenter.forward(dialogue)
 - [X] TexttilingNSPSegmenter
 - [X] CSMSegmenter
 - [X] BayesSegmenter
+- [X] EmbeddingSegmenter
 - [ ] GraphSeg
-- [ ] TextTiling+Glove
 - [ ] InstructGPT
 - [ ] TextSeg-text
 - [ ] TextSeg-dial
