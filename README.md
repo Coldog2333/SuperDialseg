@@ -31,19 +31,18 @@ predictions = segmenter.forward(dialogue)
 - [X] GreedySegmenter
 - [X] TexttilingNSPSegmenter
 - [X] CSMSegmenter
-- [] BayesSeg
-- [] GraphSeg
-- [] TextTiling+Glove
-- [] InstructGPT
-- [] TextSeg-text
-- [] TextSeg-dial
-- [] BERT
-- [] RoBERTa
-- [] TOD-BERT
-- [] T5
-- [] RetroTS-T5
-- [] MTRoBERTa
-- [] MVRoBERTa
-- [] InstructGPT
-- [] ChatGPT & GPT-4.
-
+- [X] BayesSegmenter
+- [ ] GraphSeg
+- [ ] TextTiling+Glove
+- [ ] InstructGPT
+- [ ] TextSeg-text
+- [ ] TextSeg-dial
+- [ ] BERT
+- [ ] RoBERTa
+- [ ] TOD-BERT
+- [ ] T5
+- [ ] RetroTS-T5
+- [ ] MTRoBERTa
+- [ ] MVRoBERTa
+- [ ] InstructGPT
+- [ ] ChatGPT & GPT-4.

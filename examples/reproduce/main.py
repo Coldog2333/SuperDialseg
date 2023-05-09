@@ -17,10 +17,12 @@ from models.texttiling.modeling_texttiling import (
     TexttilingSegmenter,
     TextTilingCLSSegmenter
 )
+from models.bayesseg.modeling_bayesseg import BayesSegmenter
 from models.csm.modeling_csm import (
     TexttilingNSPSegmenter,
     CSMSegmenter
 )
+from models.graphseg.modeling_graphseg import GraphsegSegmenter
 from models.embedding_texttiling.modeling_embedding_texttiling import EmbeddingSegmenter
 from models.greedyseg.modeling_greedyseg import GreedySegmenter
 from utils.data.load_dialseg import DialsegDataset
@@ -137,13 +139,29 @@ if __name__ == '__main__':
     parser.add_argument('--result_filename', type=str, default=None, help='Filename containing labels.')
     parser.add_argument('--glove_path', type=str, default=None, help='Path to GloVe embedding file.')
     parser.add_argument('--model_name_or_path', type=str, default=None, help='Path to pretrained model or model identifier.')
+    parser.add_argument("--cache_dir", type=str, default=None, help="")
+
+    # graphseg
+    parser.add_argument("--jar_path", default='models/graphseg/binary/graphseg.jar', type=str, help='jar for graphseg')
+    parser.add_argument("--relatedness_threshold",
+                        default=0.25,
+                        type=float,
+                        help="""It is the value of the relatedness treshold (decimal number) to be used in 
+                                the construction of the relatedness graph: larger values will give large number of 
+                                smalled segments, whereas the smaller treshold values will provide a smaller number 
+                                of coarse segments;""")
+    parser.add_argument("--min_seg_size",
+                        default=3,
+                        type=int,
+                        help="""It defines the minimal segment size m (in number of sentences). 
+                                This means that GraphSeg will not produce segments containing less than m sentences. """)
     args = parser.parse_args()
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     supporting_models = [
         'random', 'even',                                   # random baselines
-        'texttiling',                                       # traditional algorithms
+        'texttiling', 'bayesseg',                                      # traditional algorithms
         'greedyseg', 'texttiling_cls', 'texttiling_glove',  # neural unsupervised models
         'texttiling_nsp', 'csm',
         'result'
@@ -162,6 +180,19 @@ if __name__ == '__main__':
 
     elif args.model == 'texttiling':
         segmenter = TexttilingSegmenter(w=10, k=6)
+        collate_fn = DataCollatorPlainText()
+
+    # graphseg cannot work effectively by segmenting one-by-one
+    # elif args.model == 'graphseg':
+    #     segmenter = GraphsegSegmenter(
+    #         jar_path=args.jar_path,
+    #         relatedness_threshold=args.relatedness_threshold,
+    #         min_seg_size=args.min_seg_size
+    #     )
+    #     collate_fn = DataCollatorPlainText()
+
+    elif args.model == 'bayesseg':
+        segmenter = BayesSegmenter()
         collate_fn = DataCollatorPlainText()
 
     elif args.model == 'greedyseg':
