@@ -8,16 +8,11 @@ CLASSPATH="classes:lib/colt.jar:lib/lingpipe-3.4.0.jar:lib/MinCutSeg.jar:lib/mtj
 CONFIGPATH=os.path.join(bayesseg_module_dirpath, "config/dp.config")
 
 # if classes is empty, compile it
-def build_bayesseg():
-    os.mkdir(os.path.join(bayesseg_module_dirpath, 'classes'))
-    subprocess.call('ant -buildfile %s' % os.path.join(bayesseg_module_dirpath, 'build.xml'), shell=True)
-
-
 if not os.path.exists(os.path.join(bayesseg_module_dirpath, 'classes')):
-    build_bayesseg()
-else:
-    if os.listdir(os.path.join(bayesseg_module_dirpath, 'classes')) == []:
-        build_bayesseg()
+    os.mkdir(os.path.join(bayesseg_module_dirpath, 'classes'))
+
+if os.listdir(os.path.join(bayesseg_module_dirpath, 'classes')) == []:
+    subprocess.call('ant -buildfile %s' % os.path.join(bayesseg_module_dirpath, 'build.xml'), shell=True)
 
 subprocess.call('chmod 777 %s' % os.path.join(bayesseg_module_dirpath, 'segment'), shell=True)
 
