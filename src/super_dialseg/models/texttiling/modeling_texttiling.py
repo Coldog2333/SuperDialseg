@@ -29,7 +29,7 @@ class TexttilingSegmenter(BaseSegmenter):
             predictions.extend([0] * len(lines))
             predictions[-1] = 1
 
-        predictions[-1] = 1
+        predictions[-1] = 0
 
         return predictions
 
@@ -104,6 +104,8 @@ class TexttilingCLSSegmenter(GreedySegmenter):
             else:
                 predictions.append(0)
         predictions.append(1)
+
+        predictions[-1] = 0
 
         return predictions
 

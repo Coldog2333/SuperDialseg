@@ -27,6 +27,8 @@ class RandomSegmenter(BaseSegmenter):
             else:
                 predictions.append(0)
 
+        predictions[-1] = 0
+
         return predictions
 
 
@@ -56,6 +58,8 @@ class EvenSegmenter(BaseSegmenter):
                 predictions[-1] = 1
             predictions += [0] * (k - len(predictions))
 
+            predictions[-1] = 0
+
             return predictions
 
 
@@ -72,6 +76,7 @@ class ResultSegmenter(BaseSegmenter):
 
     def forward(self, inputs=None):
         predictions = self.results[self.counter]
+        predictions[-1] = 0
         self.counter += 1
         return predictions
 

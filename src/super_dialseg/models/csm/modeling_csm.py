@@ -90,6 +90,9 @@ class TexttilingNSPSegmenter(BaseSegmenter):
         logits = outputs['logits'][:, 0]
         # coherence_scores = torch.sigmoid(logits)
         predictions = self.get_predictions_from_logits(logits)
+
+        predictions[-1] = 0
+
         return predictions
 
     def to(self, device):

@@ -22,10 +22,12 @@ class DialsegSample:
                 "The number of utterances and segmentation labels should be the same."
 
             # set seg_label=1 for the last utterance
-            if self.segmentation_labels[-1] != 1:
-                warnings.warn(message='Segmentation Label for the last utterance should be 1. It is reset as 1. '
-                                      'But remember to reset it back to 0 when evaluating.')
-                self.segmentation_labels[-1] = 1
+            # if self.segmentation_labels[-1] != 1:
+            #     warnings.warn(message='Segmentation Label for the last utterance should be 1. It is reset as 1. '
+            #                           'But remember to reset it back to 0 when evaluating.')
+            #     self.segmentation_labels[-1] = 1
+            # set seg_label=0 for the last utterance
+            self.segmentation_labels[-1] = 0
 
         # default
         ## Default roles: system, user, system, user, ...

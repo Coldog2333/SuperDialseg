@@ -145,7 +145,7 @@ class GreedySegmenter(BaseSegmenter):
         predictions = [0] * len(inputs['utterances'])
         for i in cut_list_new:
             predictions[i] = 1
-        predictions[-1] = 1
+        predictions[-1] = 0
         # ---------------------------dcz
         assert (len(inputs['utterances']) == len(predictions))
 

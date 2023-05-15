@@ -172,7 +172,7 @@ class EmbeddingSegmenter(BaseSegmenter):
         predictions = [0] * len(utterances)
         for i in range(len(depth_scores)):
             predictions[i] = 1 if depth_scores[i] > threshold else 0
-        predictions[-1] = 1
+        predictions[-1] = 0
 
         return predictions
 

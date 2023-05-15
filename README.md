@@ -40,6 +40,20 @@ predictions = segmenter.forward(dialogue)
 
 segmenter(dialogue['utterances'])
 ```
+#### Output
+```
+User: Hello, I'd like to learn about your retirement program.
+Agent: Are you looking for family benefits?
+User: Not necessarily.
+Agent: Would you like to learn about maximum family benefits?
+User: Sure.
+Agent: Do any of your children qualify for benefits?
+User: I believe so.
+Agent: As for as the maximum family benefits, there is an upper payout limit.
+--------------------
+User: Will my child receive the full payment up front or monthly payments?
+Agent: If your child qualifies, he or she will receive monthly payments.
+```
 
 ## TODO
 ### Implemented Dialseg Models

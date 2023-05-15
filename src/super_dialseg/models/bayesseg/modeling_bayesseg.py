@@ -36,6 +36,6 @@ class BayesSegmenter(BaseSegmenter):
         predictions = [0] * line_num
         for index in segmentation_indices:
             predictions[index - 1] = 1
-        predictions[-1] = 1
+        predictions[-1] = 0
 
         return predictions

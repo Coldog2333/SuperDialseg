@@ -16,6 +16,8 @@ class BaseSegmenter:
         inputs = {'utterances': utterances}
         predictions = self.forward(inputs, *args, **kwargs)
 
+        predictions[-1] = 0
+
         print_str = ''
         for pred, utterance in zip(predictions, utterances):
             print_str += utterance + '\n'
