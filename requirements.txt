@@ -10,3 +10,4 @@ tqdm==4.65.0
 nltk==3.8.1
 ipdb
 sentencepiece
+wandb

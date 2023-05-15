@@ -7,26 +7,28 @@ from tqdm import tqdm
 import torch
 from torch.utils.data import DataLoader, SequentialSampler
 
-from modeling_utils import BaseSegmenter
-from models.baselines import (
+from transformers import BertModel
+
+from super_dialseg.modeling_utils import BaseSegmenter
+from super_dialseg.models.baselines import (
     RandomSegmenter,
     EvenSegmenter,
     ResultSegmenter
 )
-from models.texttiling.modeling_texttiling import (
+from super_dialseg.models.texttiling.modeling_texttiling import (
     TexttilingSegmenter,
     TextTilingCLSSegmenter
 )
-from models.bayesseg.modeling_bayesseg import BayesSegmenter
-from models.csm.modeling_csm import (
+from super_dialseg.models.bayesseg.modeling_bayesseg import BayesSegmenter
+from super_dialseg.models.csm.modeling_csm import (
     TexttilingNSPSegmenter,
     CSMSegmenter
 )
-from models.graphseg.modeling_graphseg import GraphsegSegmenter
-from models.embedding_texttiling.modeling_embedding_texttiling import EmbeddingSegmenter
-from models.greedyseg.modeling_greedyseg import GreedySegmenter
-from utils.data.load_dialseg import DialsegDataset
-from utils.data.data_collator import (
+from super_dialseg.models.graphseg.modeling_graphseg import GraphsegSegmenter
+from super_dialseg.models.embedding_texttiling.modeling_embedding_texttiling import EmbeddingSegmenter
+from super_dialseg.models.greedyseg.modeling_greedyseg import GreedySegmenter
+from super_dialseg.utils.data.load_dialseg import DialsegDataset
+from super_dialseg.utils.data.data_collator import (
     DataCollatorForSegmentationLabels,
     DataCollatorPlainText
 )
