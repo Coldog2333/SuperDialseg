@@ -54,6 +54,21 @@ User: Will my child receive the full payment up front or monthly payments?
 Agent: If your child qualifies, he or she will receive monthly payments.
 ```
 
+
+## 如何引用我们的工作
+如果你觉得这个项目对你有帮助，请引用我们的工作：
+```bibtex
+@misc{jiang2023superdialseg,
+      title={SuperDialseg: A Large-scale Dataset for Supervised Dialogue Segmentation}, 
+      author={Junfeng Jiang and Chengzhang Dong and Akiko Aizawa and Sadao Kurohashi},
+      year={2023},
+      eprint={2305.08371},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+```
+
+
 ## TODO
 ### 现支持的对话分割模型
 - [X] RandomSegmenter, EvenSegmenter

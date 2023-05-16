@@ -55,6 +55,21 @@ User: Will my child receive the full payment up front or monthly payments?
 Agent: If your child qualifies, he or she will receive monthly payments.
 ```
 
+
+## How to cite
+If you find it useful for your project, please cite us as
+```bibtex
+@misc{jiang2023superdialseg,
+      title={SuperDialseg: A Large-scale Dataset for Supervised Dialogue Segmentation}, 
+      author={Junfeng Jiang and Chengzhang Dong and Akiko Aizawa and Sadao Kurohashi},
+      year={2023},
+      eprint={2305.08371},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+```
+
+
 ## TODO
 ### Implemented Dialseg Models
 - [X] RandomSegmenter, EvenSegmenter
