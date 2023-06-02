@@ -5,8 +5,9 @@ from typing import Dict, Sequence, List, Optional, Union
 import torch
 from transformers import PreTrainedTokenizer
 
-from utils.data.load_dialseg import DialsegSample
-from config_file import ROLE2LABEL, DOC2DIAL_DA2LABEL
+from .utils.data.load_dialseg import DialsegSample
+from .utils.data import ROLE2LABEL, DOC2DIAL_DA2LABEL
+
 
 IGNORE_INDEX = -100
 
@@ -27,7 +28,6 @@ class DataCollatorPlainText(object):
 
         utterances = [sample.utterances for sample in samples]
         return dict(utterances=utterances, labels=labels)
-
 
 
 def call_tokenizer(
@@ -85,58 +85,55 @@ class DataCollatorForSupervisedDialogueSegmentation(object):  # TODO: Building
         classification_mask = []
 
         if self.args.backbone in ['TODBERT/TOD-BERT-JNT-V1']:
-            input_tokens.append(self.tokenizer.cls_token)
-            classification_mask.append(0)
+            input_tokens += [self.tokenizer.cls_token]
+            classification_mask += [0]
 
             todbert_role_token_mapper = {'agent': '[sys]', 'user': '[usr]'}
             for i in range(len(sample)):
                 tokens = self.tokenizer.tokenize(sample.utterances[i])[:self.args.max_utterance_len - 1]
-                tokens = [todbert_role_token_mapper[sample.roles[i]]] + tokens
-                input_tokens.extend(tokens)
+                input_tokens += [todbert_role_token_mapper[sample.roles[i]]] + tokens
+                classification_mask += [1] + [0] * (len(tokens) - 1)
 
-                mask = [1] + [0] * (len(tokens) - 1)
-                classification_mask.extend(mask)
+            input_tokens += [self.tokenizer.sep_token]
+            classification_mask += [0]
 
-            input_tokens.extend([self.tokenizer.sep_token])
-            classification_mask.append(0)
-
-        elif self.args.backbone in ['roberta-base', 'roberta-large']:
-            input_tokens.append(self.tokenizer.cls_token)
-            classification_mask.append(0)
-
-            if self.args.use_mask:
-                special_tokens = ['<mask>', '</s>', '</s>']
-            else:
-                special_tokens = ['</s>', '</s>']
+        elif self.args.backbone in ['bert-base-uncased', 'bert-large-uncased']:
+            input_tokens += [self.tokenizer.cls_token]
+            classification_mask += [0]
 
             for i in range(len(sample)):
-                tokens = self.tokenizer.tokenize(sample.utterances[i])[:self.args.max_utterance_len - len(special_tokens)]  # limit the length of an utterance.
-                tokens += special_tokens
-                input_tokens.extend(tokens)
+                tokens = self.tokenizer.tokenize(sample.utterances[i])[:self.args.max_utterance_len - 1]  # limit the length of an utterance.
+                input_tokens += tokens + ['[SEP]']
+                classification_mask += [0] * len(tokens) + [1]
 
-                mask = [0] * len(tokens)
-                mask[-len(special_tokens)] = 1
-                classification_mask.extend(mask)
+        elif self.args.backbone in ['roberta-base', 'roberta-large']:
+            input_tokens += [self.tokenizer.cls_token]
+            classification_mask += [0]
+
+            for i in range(len(sample)):
+                max_utterance_len = self.args.max_utterance_len - 3 if self.args.use_mask else self.args.max_utterance_len - 2
+                tokens = self.tokenizer.tokenize(sample.utterances[i])[:max_utterance_len]  # limit the length of an utterance.
+                input_tokens += tokens
+                classification_mask += [0] * len(tokens)
+
+                if self.args.use_mask:
+                    input_tokens += ['<mask>', '</s>', '</s>']
+                    classification_mask += [1, 0, 0]
+                else:
+                    input_tokens += ['</s>', '</s>']
+                    classification_mask += [1, 0]
 
             input_tokens = input_tokens[:-1]
             classification_mask = classification_mask[:-1]
 
-        elif self.args.backbone in ['t5-base']:
+        elif self.args.backbone in ['t5-base', 't5-large']:
             for i in range(len(sample)):
                 tokens = self.tokenizer.tokenize(sample.utterances[i])[:self.args.max_utterance_len - 1]  # limit the length of an utterance.
-                input_tokens.extend(tokens + ['</s>'])
-                classification_mask.extend([0] * len(tokens) + [1])
-
-        elif self.args.backbone in ['bert-base-uncased', 'bert-large-uncased']:
-            input_tokens.append(self.tokenizer.cls_token)
-            classification_mask.append(0)
-            for i in range(len(sample)):
-                tokens = self.tokenizer.tokenize(sample.utterances[i])[:self.args.max_utterance_len - 1]  # limit the length of an utterance.
-                input_tokens.extend(tokens + ['[SEP]'])
-                classification_mask.extend([0] * len(tokens) + [1])
+                input_tokens += tokens + ['</s>']
+                classification_mask += [0] * len(tokens) + [1]
 
         else:
-            raise ValueError('Unexpected backbone: [%s]' % self.args.backbone)
+            raise ValueError('Unsupported backbone: [%s]' % self.args.backbone)
 
         # make inputs
         encodings = call_tokenizer(
