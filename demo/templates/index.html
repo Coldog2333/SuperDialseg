@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dialogue Segmentation</title>
+</head>
+<body>
+    <h2>Dialogue Segmentation</h2>
+    <h3>1. Please select a dialogue segmentation model.</h3>
+    <h3>2. Input your dialogue below.</h3>
+    <form action="/" method="post">
+        <select name="model_id">
+            <option value="Random">Random</option>
+            <option value="TextTilling">TextTilling</option>
+            <option value="TextTilling+NSP">TextTilling+NSP</option>
+            <option value="TextSeg-super_dialseg">TextSeg-dial (SuperDialseg)</option>
+            <option value="ChatGPT">gpt-3.5-turbo</option>
+        </select><br/>
+        <textarea name="dialogue" rows="30" cols="100"></textarea><br/>
+        <input type="submit" value="Submit">
+    </form>
+    {% if segmented_dialogue %}
+        <h2>⬇⬇⬇Segmented Dialogue⬇⬇⬇</h2>
+        <p>{{ segmented_dialogue|replace('\n', '<br/>')|safe }}</p>
+    {% endif %}
+</body>
+</html>

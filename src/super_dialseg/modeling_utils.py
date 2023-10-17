@@ -24,7 +24,10 @@ class BaseSegmenter:
             if pred == 1:
                 print_str += '-' * 20 + '\n'
 
+        print_str = print_str.strip('\n')
+
         if auto_print:
             print(print_str)
+            print('\n')
 
         return predictions, print_str

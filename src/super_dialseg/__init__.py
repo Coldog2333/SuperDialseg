@@ -5,7 +5,7 @@ from . import metrics
 from . import models
 from . import utils
 
-from .models.bayesseg.modeling_bayesseg import BayesSegmenter
+# from .models.bayesseg.modeling_bayesseg import BayesSegmenter
 from .models.csm.modeling_csm import (
     TexttilingNSPSegmenter,
     CSMSegmenter,
@@ -23,4 +23,11 @@ from .models.texttiling.modeling_texttiling import (
 from .models.baselines import (
     RandomSegmenter,
     EvenSegmenter,
+)
+from .models.llm.modeling_llm import (
+    ChatGPTSegmenter,
+    InstructGPTSegmenter,
+)
+from .models.textseg.modeling_textseg import (
+    TextsegSegmenter,
 )
